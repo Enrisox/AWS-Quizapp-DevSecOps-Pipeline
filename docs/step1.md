@@ -81,21 +81,21 @@ In Docker, an image can be referenced by a tag, like latest or a specific versio
 
 **Why immutable tags are better for security:**
 
-1. Reproducibility & auditability:
+1. **Reproducibility & auditability**:
 Using a tag tied to the commit hash or version (sha-<GIT_COMMIT>), the exact same image is deployed every time. This allows you to audit the image for vulnerabilities and know exactly what is running.
-2. Vulnerability management:
+2. **Vulnerability management**:
 Tools like Trivy scan a specific image tag. If you always pull latest, a new image could contain untested or vulnerable packages. With immutable tags, you scan once per build and know the deployed version is safe.
-3. CI/CD consistency:
+3. **CI/CD consistency**:
 Immutable tags prevent “drift” in production. If a new image is pushed to latest with a bug or vulnerability, the pipeline could fail unexpectedly or deploy unsafe code.
-4. Compliance & traceability:
+4. **Compliance & traceability**:
 Security policies often require traceable, auditable deployments. Tags like commit SHA give a clear chain of custody: which code, which image, which deployment.
 
 **Example workflow:**
 
-1. Build: CI pipeline builds the image with docker build -t enrisox/quizapp:sha-${GITHUB_SHA}.
-2. Push: Push the tagged image to Docker Hub.
-3. Scan: Trivy scans the exact tag.
-4. Deploy: Self-hosted runner on Raspberry pulls the specific SHA-tagged image, ensuring only scanned, secure code is deployed.
+1. **Build**: CI pipeline builds the image with docker build -t enrisox/quizapp:sha-${GITHUB_SHA}.
+2. **Push**: Push the tagged image to Docker Hub.
+3. **Scan**: Trivy scans the exact tag.
+4. **Deploy**: Self-hosted runner on Raspberry pulls the specific SHA-tagged image, ensuring only scanned, secure code is deployed.
 
 
 ## Application Files
