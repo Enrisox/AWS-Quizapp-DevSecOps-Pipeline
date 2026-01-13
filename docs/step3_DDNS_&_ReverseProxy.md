@@ -29,7 +29,7 @@ Inserts invisible “nofollow” links to trap non-cooperative crawlers, consumi
 4. In Cloudflare, **create A (IPv4) records for your domain and subdomains**, pointing to your public IP. Set the Proxy status to Proxied (orange cloud).
 5. Create an **API Token** in **Cloudflare** with **Zone:Edit permissions for your domain**. This will be required by the DDNS container.
 
-### Dynamic IP management with Cloudflare DDNS
+## Dynamic IP management with Cloudflare DDNS
 
 The **Cloudflare DDNS container** keeps DNS records updated automatically so that my domain and subdomains always point to the Raspberry Pi, even when the ISP changes my public IP.
 
@@ -37,6 +37,35 @@ The **Cloudflare DDNS container** keeps DNS records updated automatically so tha
 - Compares it with the A/AAAA records in Cloudflare.
 - If the IP has changed, calls the Cloudflare API to update the DNS records for your domain/subdomains.
 
+```bash
+version: "3"
+
+services:
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    restart: unless-stopped
+    environment:
+      - CF_API_TOKEN= *********                 #Put your CLOUDFLARE API-TOKEN here
+      - CF_ZONE=enrisox-devops.it        # Cloudflare zone
+      - DOMAINS=*********, **********    # my domain and subdomains
+      - CF_TTL=auto
+      - IP_VERSION=4
+      - IP6_PROVIDER=none
+```
+
+Instead of the oznu/cloudflare-ddns image (which was giving 400 errors for credentials), I switched to the favonia/cloudflare-ddns container, configured with:
+
+- CF_API_TOKEN=...
+- DOMAINS=enrisox-devops.it,quizapp.enrisox-devops.it
+- IP_VERSION=4, IP6_PROVIDER=none, PROXIED=false
+
+The cloudflare-ddns container in my environment does one thing, but it's essential: it keeps my domain IP addresses updated on Cloudflare, so they always point to my current public IP.
+
+
+1. Every 5 minutes it detects my public IPv4 IP.
+2. Checks the DNS records on Cloudflare for the domains I ve set in DOMAINS .
+3. If the IP in the A records is different from the current one, it updates them automatically; if it's the same, it doesn't touch anything.
 
 ## Caddy as reverse proxy
 - **Automatic HTTPS with Let’s Encrypt certificates**.
