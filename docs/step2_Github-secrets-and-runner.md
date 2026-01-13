@@ -1,4 +1,4 @@
-# CI/CD Pipeline with GitHub Actions, Docker Hub, and Trivy
+# CI/CD Pipeline with GitHub Actions
 
 This step documents the setup of a complete DevSecOps pipeline for the AWS Quiz App. The pipeline automates testing, building, security scanning, and deployment to a Raspberry Pi environment.
 
@@ -48,4 +48,9 @@ Instead of exposing SSH to the Internet, a self-hosted GitHub Actions runner is 
 
 ![GitHub runner](../imgs/runner-arm64.png)
 
-The self-hosted Github runner needs high privileges and has to run Docker commands
+The self-hosted GitHub Actions runner requires elevated privileges in order to execute Docker commands on the host system.
+Access to the Docker daemon is required to perform image builds, vulnerability scanning, image pulls from Docker Hub, and container deployment using Docker Compose.
+
+Since membership in the Docker group effectively grants root-level privileges, this configuration represents a potential security risk.
+
+As a future improvement, a rootless container runtime such as Podman could be evaluated to further reduce the attack surface.
