@@ -1,0 +1,87 @@
+SSH Key-Based Authentication (Windows → Raspberry Pi)
+
+This guide shows how to configure SSH key-based authentication to securely access a Raspberry Pi from a Windows machine, avoiding password-based login.
+
+1. Generate SSH key pair on Windows
+
+Open PowerShell on Windows:
+
+ssh-keygen -t ed25519 -C "windows-to-raspberry"
+
+
+When prompted:
+
+Press Enter to accept the default path
+
+Optionally set a passphrase (recommended)
+
+This creates:
+
+Private key → ~/.ssh/id_ed25519
+
+Public key → ~/.ssh/id_ed25519.pub
+
+View the public key:
+
+type $env:USERPROFILE\.ssh\id_ed25519.pub
+
+
+Copy the entire line (starts with ssh-ed25519).
+
+2. Access the Raspberry Pi (password login – first time only)
+ssh enrico@RASPBERRY_IP
+
+3. Prepare SSH directory on Raspberry Pi
+
+On the Raspberry Pi:
+
+cd ~
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+4. Add the public key to authorized_keys
+nano ~/.ssh/authorized_keys
+
+
+Paste the public key copied from Windows, then save and exit.
+
+Set correct permissions:
+
+chmod 600 ~/.ssh/authorized_keys
+
+5. Test SSH key authentication
+
+From Windows:
+
+ssh enrico@RASPBERRY_IP
+
+
+✅ If login works without asking for a password, SSH key authentication is correctly configured.
+
+6. (Optional but recommended) Harden SSH security
+
+Edit SSH config:
+
+sudo nano /etc/ssh/sshd_config
+
+
+Set or ensure:
+
+PasswordAuthentication no
+PermitRootLogin no
+PubkeyAuthentication yes
+
+
+Restart SSH:
+
+sudo systemctl restart ssh
+
+Security Notes (Why this matters)
+
+Eliminates password-based brute-force attacks
+
+Private key never leaves the client machine
+
+Strong file permissions (700 / 600) prevent key leakage
+
+Follows Linux and DevSecOps security best practices
