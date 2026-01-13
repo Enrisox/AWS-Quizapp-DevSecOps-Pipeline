@@ -105,4 +105,6 @@ Runs on ubuntu-latest. Scans the Docker image with Trivy for HIGH and CRITICAL v
 4. **Job deploy**
 Runs on self-hosted (Raspberry Pi). Logs in to Docker Hub, pulls the latest image, deploys it using docker compose up -d, and cleans up images older than 72 hours.
 
-![Pipeline](../imgs/pipeline.md)
+![Pipeline](../imgs/pipeline.png)
+
+
