@@ -29,4 +29,4 @@ Docker was selected over Podman despite its rootless capabilities.
 While Podman would provide a stronger security model, Docker was chosen to ensure compatibility with GitHub Actions, multi-architecture builds, and ecosystem maturity.
 The associated risk is mitigated by restricting access to the Docker daemon and limiting the runner to a trusted single-host environment.
 
-Future improvements: migration to Podman rootless or Kubernetes.
+Possible future improvements: migration to Podman rootless or Docker Swarm/Kubernetes for containers orchestration.
