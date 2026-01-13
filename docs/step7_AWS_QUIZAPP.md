@@ -62,7 +62,7 @@ The repository is stored on a private Github repository, but also locally and on
 
 
 ## App Enhancements: "Quiz App v2"
-To make the app more functional, I want to add more features, like:
+To make the app more functional, I'm planning to to add in the future more features, like:
 
 1. **User Registration & Authentication**
 Database: You will need a database (like PostgreSQL or SQLite) to store usernames and hashed passwords.
