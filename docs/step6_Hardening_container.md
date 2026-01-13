@@ -29,14 +29,19 @@ When a container runs as root:
 - **Local Permissions (chmod -R 550 /app)**: This instruction ensures that appuser can only read and execute the necessary files (app.py, exam.txt, etc.), but cannot write to them. This prevents an attacker from modifying or injecting malicious code into the application files themselves. If an attack succeeds, the damage is confined only to the unprivileged user inside the container and does not propagate to the host server.
 
 **Verifying the Running User**
-
+```bash
 sudo docker exec -it quizapp whoami
+```
 
 ## Container Read-Only (--read-only)
+```bash
 
 docker run -d \
   --read-only \
   --name quizapp \
   -p 9000:9000 \
   enrisox/quizapp
+```
+
+
 
