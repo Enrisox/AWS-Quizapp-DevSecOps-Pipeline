@@ -56,8 +56,8 @@ services:
 
 Instead of the oznu/cloudflare-ddns image (which was giving 400 errors for credentials), I switched to the favonia/cloudflare-ddns container, configured with:
 
-- CF_API_TOKEN=...
-- DOMAINS=enrisox-devops.it,quizapp.enrisox-devops.it
+- CF_API_TOKEN=*********
+- DOMAINS=domain.it, subdomain.it
 - IP_VERSION=4, IP6_PROVIDER=none, PROXIED=false
 
 The cloudflare-ddns container in my environment does one thing, but it's essential: it keeps my domain IP addresses updated on Cloudflare, so they always point to my current public IP.
