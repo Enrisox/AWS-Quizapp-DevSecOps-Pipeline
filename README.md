@@ -1,6 +1,6 @@
 # AWS QuizApp DevSecOps project
 
-This guide walks through building, containerizing, and deploying a Flask-based AWS Quiz App using Docker, GitHub Actions CI/CD (with pytest and Trivy), Raspberry Pi hosting, Caddy reverse proxy, and a custom domain. Start from scratch on a fresh Ubuntu Server
+This project walks through building, containerizing, and deploying a Flask-based AWS Quiz App using Docker, GitHub Actions CI/CD (with pytest and Trivy), Raspberry Pi hosting, Caddy reverse proxy, and a custom domain. 
 
 ## Project Background
 
@@ -29,4 +29,9 @@ Docker was selected over Podman despite its rootless capabilities.
 While Podman would provide a stronger security model, Docker was chosen to ensure compatibility with GitHub Actions, multi-architecture builds, and ecosystem maturity.
 The associated risk is mitigated by restricting access to the Docker daemon and limiting the runner to a trusted single-host environment.
 
+If you found this project useful, please give it a ⭐ star!
+
+
 Possible future improvements: migration to Podman rootless or Docker Swarm/Kubernetes for containers orchestration.
+
+enricosoci@protonmail.com
