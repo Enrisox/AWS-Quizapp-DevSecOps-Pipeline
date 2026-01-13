@@ -24,21 +24,27 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN useradd -r appuser
+RUN useradd -r -s /bin/false appuser
 
 COPY app.py .
 COPY exam.txt .
 COPY templates/ ./templates/
 
-RUN chown -R appuser:appuser /app
-RUN chmod -R 550 /app
+RUN chown -R appuser:appuser /app && \    
+    chmod -R 550 /app           
+
 USER appuser
 
 EXPOSE 9000
 
-CMD ["gunicorn", "-b", "0.0.0.0:9000", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:9000", "-w", "4", "app:app"]
 ```
+- **RUN chown -R appuser:appuser /app && chmod -R 550 /app:** Each RUN creates a Docker layer. Combining them with &&, you reduce the layers in the final image → smaller image and faster build.
 
+- **RUN useradd -r -s /bin/false appuser**: Prevents interactive login for the appuser user. Even if an attacker compromises the container, they cannot open a shell as appuser because the shell is set to /bin/false.
+
+- **"-w", "4":** Starts 4 Gunicorn worker processes (instead of just 1). This allows handling concurrent requests on the Raspberry Pi. The standard formula is (2 × CPU cores) + 1.
+Benefit: If 10 users open the QuizApp simultaneously, they don't have to wait in queue (each worker handles requests independently).
 ## Create Docker Compose Configuration
 
 The docker-compose.yml file defines how the Quiz App container runs, which network it uses, port exposure, and security constraints. It allows easy management of the container and integration with other services like the reverse proxy (Caddy) and Cloudflare DDNS.
@@ -49,21 +55,22 @@ services:
     image: enrisox/quizapp:${IMAGE_TAG}
     container_name: quizapp
     restart: unless-stopped
+    read_only: true
 
     networks:
-      - ReverseProxy_net
+      - rp_net
     expose:
-      - "9000"
+      - "5000"
 
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - ALL
     tmpfs:
-      - /tmp
+      - /tmp:rw,noexec,nosuid,size=50m
 
 networks:
-  ReverseProxy_net:
+  rp_net:
     external: true
 ```
 
@@ -72,7 +79,13 @@ networks:
 - **networks: ReverseProxy_net**: Connects the container to a dedicated network shared with the reverse proxy (Caddy) and other internal services.
 - **expose: "9000"**: Makes the application port accessible only to other containers; the reverse proxy handles public access.
 - **security_opt and cap_drop**: Hardens the container by removing unnecessary Linux capabilities and preventing privilege escalation.
-- **tmpfs: /tmp**: Stores temporary files in memory, improving security by avoiding sensitive data on disk.
+- **tmpfs: /tmp:rw,noexec,nosuid,size=50m**: Stores temporary files in memory, improving security by avoiding sensitive data on disk.tmpfs mount options that control how Docker mounts the /tmp directory in RAM:
+​
+rw (read-write): Allows Flask/Gunicorn to create temporary files in /tmp
+noexec (no execute): Prevents execution of binaries in /tmp, blocking attackers from running malware
+​nosuid (no setuid): Ignores SUID/SGID bits, preventing privilege escalation attacks
+​size=50m: Limits /tmp to 50MB, preventing DoS attacks that fill RAM
+
 - **networks.external: true**: The network is created outside Compose and can be shared with multiple services.
 
 **Using Immutable Docker Image Tags vs latest – Security Perspective**
