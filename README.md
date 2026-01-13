@@ -23,3 +23,8 @@ This evolution transformed a personal study application into a publicly accessib
 - **Caddy** reverse proxy configured on  a dedicated and isolated Docker network.
 - Custom domain managed via **Cloudflare**.
 - SSH access to the Raspberry Pi with a dedicated `deploy` user for improved security.
+
+## Docker vs Podman
+Docker was selected over Podman despite its rootless capabilities.
+While Podman would provide a stronger security model, Docker was chosen to ensure compatibility with GitHub Actions, multi-architecture builds, and ecosystem maturity.
+The associated risk is mitigated by restricting access to the Docker daemon and limiting the runner to a trusted single-host environment.
