@@ -42,6 +42,10 @@ Instead of exposing SSH to the Internet, a self-hosted GitHub Actions runner is 
 
 **Create a runner on GitHub**
 
-- Go to your repository → Settings → Actions → Runners → New self-hosted runner.
+- **From the repository → Settings → Actions → Runners → New self-hosted runner.**
 - Select Linux and the correct architecture for your Raspberry Pi.
 - GitHub gives you a set of commands to download, extract, and configure the runner on your machine.
+
+![GitHub runner](../imgs/runner-arm64.png)
+
+The self-hosted Github runner needs high privileges and has to run Docker commands
