@@ -8,22 +8,17 @@ Cloudflare and Caddy both act as reverse proxies, but at different layers and re
 
 **Free plan protections included**
 
-**Bot fight mode with JS detections: On**
+- **Bot fight mode with JS detections: On**
 Cloudflare identifies automated traffic and can issue “computational” challenges to bots. The JS Detection runs on each request to help identify automation.
-
-**Browser integrity Check**
+- **Browser integrity Check**
 Evaluates HTTP headers and can block requests considered suspicious.
-
-**Challenge passage 30 min**
+- **Challenge passage 30 min**
 Once a client passes a challenge, it is “validated” for 30 minutes before receiving another one.
-
-**HTTP DDoS + network-layer DDoS protection (“Always active”)**
+- **HTTP DDoS + network-layer DDoS protection (“Always active”)**
 Automatic mitigations for HTTP and network-level DDoS attacks are always enabled.
-
-**Cloudflare managed ruleset (WAF) (“Always active”)**
+- **Cloudflare managed ruleset (WAF) (“Always active”)**
 A Cloudflare-managed WAF ruleset protects against common exploits; users can review and enable rules based on their stack.
-
-**AI labyrinth**
+- **AI labyrinth**
 Inserts invisible “nofollow” links to trap non-cooperative crawlers, consuming bot resources and helping identify aggressive scrapers.
 
 ## Cloudflare configuration
@@ -36,7 +31,7 @@ Inserts invisible “nofollow” links to trap non-cooperative crawlers, consumi
 
 ### Dynamic IP management with Cloudflare DDNS
 
-The Cloudflare DDNS container keeps DNS records updated automatically so that my domain and subdomains always point to the Raspberry Pi, even if the ISP changes my public IP.
+The **Cloudflare DDNS container** keeps DNS records updated automatically so that my domain and subdomains always point to the Raspberry Pi, even when the ISP changes my public IP.
 
 - Periodically queries your public IP (IPv4 and/or IPv6) via external services or DNS-over-HTTPS.
 - Compares it with the A/AAAA records in Cloudflare.
@@ -44,12 +39,12 @@ The Cloudflare DDNS container keeps DNS records updated automatically so that my
 
 
 ## Caddy as reverse proxy
-- Automatic HTTPS with Let’s Encrypt certificates.
-- Reverse proxy routing to internal containers.
-- Security-focused defaults: minimal configuration exposure, TLS enforced by default.
-- Separation of concerns: Cloudflare manages edge security (DDoS, WAF, bot mitigation), Caddy manages internal traffic safely.
+- **Automatic HTTPS with Let’s Encrypt certificates**.
+- **Reverse proxy routing to internal containers**.
+- Security-focused defaults: minimal configuration exposure, **TLS enforced by default**.
+- Separation of concerns: **Cloudflare manages edge security (DDoS, WAF, bot mitigation), Caddy manages internal traffic safely.**
 
-Caddy must be attached to the same Docker network as the services it routes to: for example:Rp_net
+**Caddy must be attached to the same Docker network as the services it routes to**: for example: Reverseproxy_net
 
 I created a network with Portainer but the docker command is : docker network create reverseproxy_net.
 
