@@ -55,8 +55,19 @@ The application exposes a single HTTP endpoint (`/`) which returns a web page re
 ![web-page](../imgs/webpage1.png)
 
 ![web-page](../imgs/webpage2.png)
-DISASTER RECOVERY IDEAS... 
 
-METTI REPO ANCHE SU ecr
-terraform ansible roxmox o docker swarm
-migliorare l'app aggiungendo registrazione utenti e calcolo punteggio sessione..
+## AWS ECR and CodeCommit as backup repository
+
+The repository is stored on a private Github repository, but also locally and on a AWS Codecommit repository . 
+
+
+## App Enhancements: "Quiz App v2"
+To make the app more functional, I want to add more features, like:
+
+1. **User Registration & Authentication**
+Database: You will need a database (like PostgreSQL or SQLite) to store usernames and hashed passwords.
+
+2. **Session Score Calculation**
+Session Tracking: Store the user's current score in a Flask session object or a database table.
+
+3. **Terraform and Ansible integration for rapid deploy and automation**
