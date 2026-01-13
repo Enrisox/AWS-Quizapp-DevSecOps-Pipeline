@@ -60,7 +60,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /home/enrico/caddy/config/Caddyfile:/etc/caddy/Caddyfile
+      - /home/USER/caddy/config/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
     networks:
       - reverseproxy_net   # <─ same network of my quiz-app
