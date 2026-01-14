@@ -1,6 +1,6 @@
 # SSH Key-Based Authentication
 
-## 1. Generate SSH key pair on Windows
+**1. Generate SSH key pair on Windows**
 
 Open PowerShell on Windows:
 
