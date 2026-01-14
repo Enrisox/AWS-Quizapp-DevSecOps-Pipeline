@@ -1,4 +1,4 @@
-# SSH Key-Based Authentication
+# SSH key-based authentication
 
 **1. Generate SSH key pair on Windows**
 
