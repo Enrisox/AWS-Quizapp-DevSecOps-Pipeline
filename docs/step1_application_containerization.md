@@ -88,7 +88,7 @@ noexec (no execute): Prevents execution of binaries in /tmp, blocking attackers 
 
 - **networks.external: true**: The network is created outside Compose and can be shared with multiple services.
 
-**Using Immutable Docker Image Tags vs latest – Security Perspective**
+### Using Immutable Docker Image Tags vs latest – Security Perspective
 
 In Docker, an image can be referenced by a tag, like latest or a specific version/hash
 
@@ -110,14 +110,18 @@ Security policies often require traceable, auditable deployments. Tags like comm
 3. **Scan**: Trivy scans the exact tag.
 4. **Deploy**: Self-hosted runner on Raspberry pulls the specific SHA-tagged image, ensuring only scanned, secure code is deployed.
 
+## Application Structure
 
-## Application Files
+In the early development phase, the application files (such as app.py and the templates directory) were created and tested locally within the project directory.
 
-- Create the templates/ directory:
-This folder will contain HTML templates for the Flask app.
+As the project evolved toward a DevSecOps-oriented workflow, **the GitHub repository became the single source of truth for the application**.
 
-- Create index.html inside templates/:
-This is the main page of the web app.
+All application components are now:
 
-- Create app.py
-This is the Python Flask application entry point
+- Defined and versioned in the Git repository
+- Built automatically by the CI pipeline
+- Packaged into a Docker image
+- Deployed to the Raspberry Pi by pulling the image from the registry
+
+**The runtime filesystem on the server is no longer used to manually create or modify application files.  
+Any change to the application logic or templates is performed through a Git commit and propagated via the CI/CD pipeline.**
