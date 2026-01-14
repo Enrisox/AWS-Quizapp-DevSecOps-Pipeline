@@ -1,7 +1,7 @@
 # Preparing the AWS QuizApp on Raspberry Pi
 
-This tutorial starts with my Raspberry Pi environment already set up, with Ubuntu Server, Docker, and Docker Compose installed and ready to use.
-To learn more about Ubuntu server and Docker setup, check my other project: **https://github.com/Enrisox/Secure-Home-Lab-Docker**
+This tutorial starts with my Raspberry Pi environment already set up, with Ubuntu Server, Docker, and Docker Compose installed and ready to use.<br>
+To learn more about Ubuntu server and Docker setup, check my other project: **https://github.com/Enrisox/Secure-Home-Lab-Docker** <br>
 I will focus on preparing the AWS QuizApp project, creating the directory structure, Dockerfile, and docker-compose.yml for local testing before setting up CI/CD in step2.md.
 
 ## Create Project directory
