@@ -68,7 +68,7 @@ PubkeyAuthentication yes
 - Private key never leaves the client machine
 - Strong file permissions (600) prevent key leakage
 - Follows Linux and DevSecOps security best practices
-- 
+
 **Restart SSH:**
 
 ```bash
