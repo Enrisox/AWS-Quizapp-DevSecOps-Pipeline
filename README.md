@@ -69,7 +69,7 @@ This pipeline enforces security gates: deployments occur only if tests pass and 
    [step7_AWS_QUIZAPP.md](step7_AWS_QUIZAPP.md)  
    High-level overview of the application, architecture, and screenshots showing how the app works.
 
-![web-page](../imgs/webpage2.png)
+![web-page](./imgs/webpage2.png)
 ## Docker vs Podman
 **Docker** was selected over **Podman** despite its rootless capabilities.
 While Podman would provide a stronger security model, Docker was chosen to ensure compatibility with GitHub Actions, multi-architecture builds, and ecosystem maturity.
