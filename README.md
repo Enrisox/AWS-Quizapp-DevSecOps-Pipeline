@@ -66,7 +66,7 @@ This pipeline enforces security gates: deployments occur only if tests pass and 
    Apply advanced Docker hardening techniques such as capability dropping, read-only filesystems, and tmpfs usage.
 
 7. **AWS QuizApp – Application Overview & Demo**  
-   [step7_AWS_QUIZAPP.md](step7_AWS_QUIZAPP.md)  
+   [step7_AWS_QUIZAPP.md](docs/step7_AWS_QUIZAPP.md)  
    High-level overview of the application, architecture, and screenshots showing how the app works.
 
 ![web-page](./imgs/webpage2.png)
