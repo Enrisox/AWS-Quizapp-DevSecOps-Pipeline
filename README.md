@@ -42,27 +42,27 @@ This pipeline enforces security gates: deployments occur only if tests pass and 
 ## Project Documentation Roadmap
 
 1. **Application Containerization & Local Hardening**  
-   [step1_application_containerization.md](step1_application_containerization.md)  
+   [step1_application_containerization.md](docs/step1_application_containerization.md)  
    Containerize the Flask AWS QuizApp using Docker, apply basic security best practices, and prepare the foundation for CI/CD.
 
 2. **GitHub Secrets & Self-Hosted Runner Setup**  
-   [step2_Github-secrets-and-runner.md](step2_Github-secrets-and-runner.md)  
+   [step2_Github-secrets-and-runner.md](docs/step2_Github-secrets-and-runner.md)  
    Configure GitHub Secrets, Docker registry credentials, and a self-hosted GitHub Actions runner on Raspberry Pi.
 
 3. **Dynamic DNS & Reverse Proxy (Cloudflare + Caddy)**  
-   [step3_DDNS_&_ReverseProxy.md](step3_DDNS_&_ReverseProxy.md)  
+   [step3_DDNS_&_ReverseProxy.md](docs/step3_DDNS_&_ReverseProxy.md)  
    Expose the application securely using a custom domain, Cloudflare DDNS, and Caddy as a reverse proxy.
 
 4. **CI/CD Pipeline with GitHub Actions**  
-   [step4_GitHub-Actions.md](step4_GitHub-Actions.md)  
+   [step4_GitHub-Actions.md](docs/step4_GitHub-Actions.md)  
    Build a complete CI pipeline with Docker Buildx, image publishing, and automated deployment.
 
 5. **Testing & Security Scanning (pytest + Trivy)**  
-   [step5_Test-and-security-scan.md](step5_Test-and-security-scan.md)  
+   [step5_Test-and-security-scan.md](docs/step5_Test-and-security-scan.md)  
    Integrate unit tests and vulnerability scanning into the CI pipeline to enforce security gates.
 
 6. **Container Hardening & Runtime Security**  
-   [step6_Hardening_container.md](step6_Hardening_container.md)  
+   [step6_Hardening_container.md](docs/step6_Hardening_container.md)  
    Apply advanced Docker hardening techniques such as capability dropping, read-only filesystems, and tmpfs usage.
 
 7. **AWS QuizApp – Application Overview & Demo**  
