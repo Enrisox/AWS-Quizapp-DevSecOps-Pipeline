@@ -14,8 +14,10 @@ cd ~/app1-test
 ```
 
 ## Create the Dockerfile in the Project directory
-- **The Dockerfile** defines the container for the AWS Quiz App. It starts by setting the base image to python:3.11-slim, a lightweight Python 3.11 image that reduces the final size while providing a complete Python environment. Using the slim variant also minimizes the number of pre-installed packages, reducing the attack surface and improving security. The working directory inside the container is set to /app, so all subsequent commands, such as copying files or running commands, are executed relative to this folder.
-- **The requirements.txt file** is copied from the host into the container’s /app directory, enabling Docker to install the Python dependencies needed for the application. All packages listed in requirements.txt are installed using pip install --no-cache-dir -r requirements.txt; the --no-cache-dir option prevents caching, keeping the image small.
+**The Dockerfile** defines the container for the AWS Quiz App. It starts by setting the base image to python:3.11-slim, a lightweight Python 3.11 image that reduces the final size while providing a complete Python environment. Using the slim variant also minimizes the number of pre-installed packages, reducing the attack surface and improving security. The working directory inside the container is set to /app, so all subsequent commands, such as copying files or running commands, are executed relative to this folder.
+
+**The requirements.txt file** is copied from the host into the container’s /app directory, enabling Docker to install the Python dependencies needed for the application. All packages listed in requirements.txt are installed using pip install --no-cache-dir -r requirements.txt; the --no-cache-dir option prevents caching, keeping the image small.
+
 - **For security**, a non-root system user named **appuser** is created with no login shell. Running the application as a non-root user is a best practice to reduce potential security risks. The main application files (app.py), the dataset (exam.txt), and the HTML templates (templates/) are copied into the container, providing all the code and resources the app needs to run.
 - **File ownership** is changed to appuser using chown -R appuser:appuser /app, ensuring the non-root user has access to all application files. File permissions are then set to 550 recursively with chmod -R 550 /app, allowing read and execute access for the owner and group while preventing modification inside the container. The container is then switched to run as appuser with the USER command, so all subsequent commands and the application itself execute with restricted permissions.
 - **Port 9000** is exposed inside the container to allow communication from other containers or a reverse proxy like Caddy. Finally, the container starts the application using Gunicorn, a production-grade WSGI server. The command CMD ["gunicorn", "-b", "0.0.0.0:9000", "app:app"] binds the server to all network interfaces on port 9000 and tells Gunicorn to run the app object defined in app.py. This configuration ensures the Flask application runs securely, efficiently, and is ready to be accessed via the container network.
@@ -47,6 +49,7 @@ CMD ["gunicorn", "-b", "0.0.0.0:9000", "-w", "4", "app:app"]
 
 - **"-w", "4":** Starts 4 Gunicorn worker processes (instead of just 1). This allows handling concurrent requests on the Raspberry Pi. The standard formula is (2 × CPU cores) + 1.
 Benefit: If 10 users open the QuizApp simultaneously, they don't have to wait in queue (each worker handles requests independently).
+
 ## Create Docker Compose Configuration
 
 The docker-compose.yml file defines how the Quiz App container runs, which network it uses, port exposure, and security constraints. It allows easy management of the container and integration with other services like the reverse proxy (Caddy) and Cloudflare DDNS.
@@ -81,13 +84,11 @@ networks:
 - **networks: ReverseProxy_net**: Connects the container to a dedicated network shared with the reverse proxy (Caddy) and other internal services.
 - **expose: "9000"**: Makes the application port accessible only to other containers; the reverse proxy handles public access.
 - **security_opt and cap_drop**: Hardens the container by removing unnecessary Linux capabilities and preventing privilege escalation.
-- **tmpfs: /tmp:rw,noexec,nosuid,size=50m**: Stores temporary files in memory, improving security by avoiding sensitive data on disk.tmpfs mount options that control how Docker mounts the /tmp directory in RAM:
-​
-rw (read-write): Allows Flask/Gunicorn to create temporary files in /tmp
-noexec (no execute): Prevents execution of binaries in /tmp, blocking attackers from running malware
-​nosuid (no setuid): Ignores SUID/SGID bits, preventing privilege escalation attacks
-​size=50m: Limits /tmp to 50MB, preventing DoS attacks that fill RAM
-
+- **tmpfs: /tmp:rw,noexec,nosuid,size=50m**: Stores temporary files in memory, improving security by avoiding sensitive data on disk.tmpfs mount options that control how Docker mounts the /tmp directory in RAM:​
+- **rw (read-write)**: Allows Flask/Gunicorn to create temporary files in /tmp
+- **noexec** (no execute): Prevents execution of binaries in /tmp, blocking attackers from running malware
+​- **nosuid** (no setuid): Ignores SUID/SGID bits, preventing privilege escalation attacks
+​- **size=50m**: Limits /tmp to 50MB, preventing DoS attacks that fill RAM
 - **networks.external: true**: The network is created outside Compose and can be shared with multiple services.
 
 ### Using Immutable Docker Image Tags vs latest – Security Perspective
