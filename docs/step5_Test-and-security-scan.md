@@ -1,6 +1,5 @@
-# Testing and Security Scanning with Pytest and Trivy
-
-This step describes how the GitHub Actions pipeline ensures code correctness and container security before deployment. The two main components are **Pytest** for functional testing of the Flask application and **Trivy** for vulnerability scanning of Docker images.
+# Testing and Security Scanning 
+This step describes how the GitHub Actions pipeline ensures code correctness and container security before deployment. The three main components are **Pytest** for functional testing of the Flask application, **Trivy** for vulnerability scanning of Docker images and **SNYK** 
 
 ## Pytest: automated testing
 
@@ -80,20 +79,55 @@ The `scan-image` job in GitHub Actions performs:
 - format: table → human-readable table output.
 - exit-code: "1" → fails the CI job if vulnerabilities are found, preventing deployment of unsafe images.
 
-### Do you need local Trivy?
-
-**No, not for the GitHub Actions pipeline.**
-- The pipeline uses the Trivy Action which includes and runs Trivy for you.
-
-**Yes, if you want to:**
-
-- run manual scans locally (e.g., before opening a PR),
-- scan images stored locally or in other registries,
-- check additional things like filesystem or IaC config, not just container images.
-
 Manual local scan of a Docker image on a server:
 ```yaml
 sudo apt install trivy
 trivy image dockerhub-username/image-name:latest   #or image tag
 ```
+
+# SNYK
+Snyk is a developer-first cybersecurity platform that helps teams find and fix security vulnerabilities directly in their code, open-source dependencies, containers, and cloud infrastructure.
+It’s designed to integrate into the tools developers already use (like GitHub, CI/CD pipelines), so security becomes part of the development workflow.
+
+## How Snyk Ensures Code Security?
+
+Snyk improves security at multiple stages of software development:
+
+1. **Open Source Dependency Scanning (SCA – Software Composition Analysis)**
+
+- Scans your project dependencies
+- Detects known vulnerabilities (CVEs)
+- Suggests safe versions to upgrade to
+- Can automatically create pull requests to fix issues
+
+2️. **Static Code Analysis (SAST)**
+
+- SQL injection
+- Cross-site scripting (XSS)
+- Insecure authentication logic
+- Hardcoded secrets
+
+SNYK shows:
+
+- The exact line of vulnerable code
+- Why it’s risky
+- How to fix it
+
+3️. **Container Security**
+
+- Scans container images
+- Detects OS-level vulnerabilities
+- Identifies risky base images
+- Recommends safer alternatives
+
+4. **Infrastructure as Code (IaC) Security**
+
+- Misconfigured cloud storage
+- Open security groups
+- Publicly exposed databases
+- Over-permissioned IAM roles
+
+It helps prevent cloud misconfigurations before deployment.
+
+
 
